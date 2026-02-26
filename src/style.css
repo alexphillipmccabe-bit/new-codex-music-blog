@@ -51,6 +51,18 @@ body {
   padding: 1.5rem 0 4rem;
 }
 
+#app.route-home {
+  width: 100%;
+  padding: 0 0 4rem;
+}
+
+#app.route-home .topbar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1120px, 92vw);
+}
+
 .grain {
   position: fixed;
   inset: 0;
@@ -294,23 +306,23 @@ body {
 
 .home-canvas {
   position: relative;
-  min-height: calc(100vh - 110px);
-  border-radius: 24px;
+  min-height: 100vh;
+  border-radius: 0;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 0;
   background-image:
-    linear-gradient(180deg, rgba(7, 10, 16, 0.2), rgba(7, 10, 16, 0.6)),
-    url("https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=2400&q=80");
+    linear-gradient(180deg, rgba(7, 10, 16, 0.15), rgba(7, 10, 16, 0.62)),
+    url("https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=2600&q=80");
   background-size: cover;
-  background-position: center;
-  box-shadow: 0 30px 70px rgba(8, 12, 18, 0.2);
+  background-position: center 18%;
+  box-shadow: none;
   display: flex;
   align-items: flex-end;
-  padding: 2.2rem;
+  padding: 0 4vw 3.2rem;
 }
 
 .home-canvas-overlay {
-  max-width: 56ch;
+  max-width: min(760px, 88vw);
 }
 
 .home-canvas .eyebrow {
@@ -367,6 +379,11 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+}
+
+.home-content-shell {
+  width: min(1120px, 92vw);
+  margin: 1.4rem auto 0;
 }
 
 .panel {
@@ -655,8 +672,8 @@ body {
 
 @media (max-width: 920px) {
   .home-canvas {
-    min-height: 68vh;
-    padding: 1.35rem;
+    min-height: 100svh;
+    padding: 0 1.1rem 2.2rem;
   }
 
   .grid {
@@ -668,6 +685,11 @@ body {
   #app {
     width: 94vw;
     padding-top: 1rem;
+  }
+
+  #app.route-home {
+    width: 100%;
+    padding-top: 0;
   }
 
   .topbar {

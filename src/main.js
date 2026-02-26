@@ -8,6 +8,10 @@ const sortedPosts = [...posts].sort(
   (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
 )
 
+function setRouteClass(name) {
+  app.className = name
+}
+
 function attachScrollReveal() {
   const elements = document.querySelectorAll('.reveal')
   const observer = new IntersectionObserver(
@@ -99,6 +103,7 @@ function postCard(post) {
 }
 
 function renderHome() {
+  setRouteClass('route-home')
   const oldiesPosts = sortedPosts.filter((post) => post.series === 'oldies')
   const scoutingPosts = sortedPosts.filter((post) => post.series === 'scouting')
   const featured = oldiesPosts.find((post) => post.featured) ?? oldiesPosts[0] ?? sortedPosts[0]
@@ -115,27 +120,29 @@ function renderHome() {
         </div>
       </section>
 
-      <section class="grid reveal">
-        <article class="panel reveal">
-          <div class="panel-head">
-            <h3>${series.oldies.label}</h3>
-            <p>${series.oldies.description}</p>
-          </div>
-          <div class="feed-grid">${oldiesPosts.map(postCard).join('')}</div>
-        </article>
-        <article class="panel reveal">
-          <div class="panel-head">
-            <h3>${series.scouting.label}</h3>
-            <p>${series.scouting.description}</p>
-          </div>
-          <div class="feed-grid">${scoutingPosts.map(postCard).join('')}</div>
-        </article>
-      </section>
+      <div class="home-content-shell">
+        <section class="grid reveal">
+          <article class="panel reveal">
+            <div class="panel-head">
+              <h3>${series.oldies.label}</h3>
+              <p>${series.oldies.description}</p>
+            </div>
+            <div class="feed-grid">${oldiesPosts.map(postCard).join('')}</div>
+          </article>
+          <article class="panel reveal">
+            <div class="panel-head">
+              <h3>${series.scouting.label}</h3>
+              <p>${series.scouting.description}</p>
+            </div>
+            <div class="feed-grid">${scoutingPosts.map(postCard).join('')}</div>
+          </article>
+        </section>
 
-      <section class="spotlight reveal minimalist-spotlight">
-        <p class="spotlight-label">Featured</p>
-        <h2><a href="#/post/${featured.slug}">${featured.title}</a></h2>
-      </section>
+        <section class="spotlight reveal minimalist-spotlight">
+          <p class="spotlight-label">Featured</p>
+          <h2><a href="#/post/${featured.slug}">${featured.title}</a></h2>
+        </section>
+      </div>
     </main>
   `
   attachScrollReveal()
@@ -143,6 +150,7 @@ function renderHome() {
 }
 
 function renderSeries(seriesId) {
+  setRouteClass('route-default')
   const bucket = series[seriesId]
   if (!bucket) {
     renderHome()
@@ -169,6 +177,7 @@ function renderSeries(seriesId) {
 }
 
 function renderPost(slug) {
+  setRouteClass('route-default')
   const post = sortedPosts.find((entry) => entry.slug === slug)
   if (!post) {
     renderHome()

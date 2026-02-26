@@ -107,39 +107,12 @@ function renderHome() {
     <div class="grain"></div>
     ${navMarkup()}
     <main>
-      <section class="hero reveal is-visible">
-        <div class="hero-orb hero-orb-a"></div>
-        <div class="hero-orb hero-orb-b"></div>
-        <p class="eyebrow">Oldies decoded. New heat spotted first.</p>
-        <h1>Vault & Velocity is your daily music radar.</h1>
-        <p class="intro">${site.description}</p>
-      </section>
-
-      <section class="visual-wall reveal">
-        <article class="visual visual-a">
-          <p>Live Pulse</p>
-          <h3>Crowd energy, front row chaos, midnight sets.</h3>
-        </article>
-        <article class="visual visual-b">
-          <p>Artist Focus</p>
-          <h3>Faces and voices shaping the next era.</h3>
-        </article>
-        <article class="visual visual-c">
-          <p>Studio to Stage</p>
-          <h3>From raw demos to breakout moments.</h3>
-        </article>
-      </section>
-
-      <section class="spotlight reveal">
-        <p class="spotlight-label">Lead Story</p>
-        <h2><a href="#/post/${featured.slug}">${featured.title}</a></h2>
-        <p>${featured.excerpt}</p>
-      </section>
-
-      <section class="pulse-strip reveal">
-        <p>Oldies spotlight</p>
-        <p>New music scout</p>
-        <p>Play it now</p>
+      <section class="home-canvas reveal is-visible">
+        <div class="home-canvas-overlay">
+          <p class="eyebrow">Vault & Velocity</p>
+          <h1>Old songs. New talent. One daily radar.</h1>
+          <p class="intro">${site.description}</p>
+        </div>
       </section>
 
       <section class="grid reveal">
@@ -157,6 +130,11 @@ function renderHome() {
           </div>
           <div class="feed-grid">${scoutingPosts.map(postCard).join('')}</div>
         </article>
+      </section>
+
+      <section class="spotlight reveal minimalist-spotlight">
+        <p class="spotlight-label">Featured</p>
+        <h2><a href="#/post/${featured.slug}">${featured.title}</a></h2>
       </section>
     </main>
   `

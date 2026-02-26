@@ -1,5 +1,5 @@
 import './style.css'
-import { getAllTags, posts, site } from './data/posts.js'
+import { posts, series, site } from './data/posts.js'
 
 const app = document.querySelector('#app')
 
@@ -24,108 +24,84 @@ function navMarkup() {
       </a>
       <nav class="topnav">
         <a href="#/">Home</a>
-        <a href="#/tag/${encodeURIComponent('a&r-watch')}">A&R Watch</a>
-        <a href="#/tag/review">Reviews</a>
+        <a href="#/series/oldies">Oldies Spotlight</a>
+        <a href="#/series/scouting">A&R Scout</a>
       </nav>
     </header>
   `
 }
 
-function tagChip(tag) {
-  return `<a class="tag-chip" href="#/tag/${encodeURIComponent(tag)}">${tag}</a>`
-}
-
 function postCard(post) {
+  const bucket = series[post.series]
   return `
     <article class="feed-card">
-      <p class="feed-meta">${post.type} · ${formatDate(post.publishedAt)}</p>
+      <p class="feed-meta">${bucket.label} · ${formatDate(post.publishedAt)}</p>
       <h3><a href="#/post/${post.slug}">${post.title}</a></h3>
       <p class="feed-artist">${post.artist}</p>
       <p class="feed-excerpt">${post.excerpt}</p>
-      <div class="tag-row">${post.tags.map(tagChip).join('')}</div>
-    </article>
-  `
-}
-
-function reviewCard(post) {
-  return `
-    <article class="review-card">
-      <p class="review-type">${post.type}</p>
-      <h3><a href="#/post/${post.slug}">${post.title}</a></h3>
-      <p class="review-artist">${post.artist}</p>
-      <p class="review-blurb">${post.excerpt}</p>
-      <p class="review-score">${post.score ?? 'A&R Watch'}</p>
     </article>
   `
 }
 
 function renderHome() {
-  const featured = sortedPosts.find((post) => post.featured) ?? sortedPosts[0]
-  const latest = sortedPosts.slice(0, 6)
-  const reviews = sortedPosts.filter((post) => post.type === 'review').slice(0, 3)
-  const allTags = getAllTags()
+  const oldiesPosts = sortedPosts.filter((post) => post.series === 'oldies')
+  const scoutingPosts = sortedPosts.filter((post) => post.series === 'scouting')
+  const featured = oldiesPosts.find((post) => post.featured) ?? oldiesPosts[0] ?? sortedPosts[0]
 
   app.innerHTML = `
     <div class="grain"></div>
     ${navMarkup()}
     <main>
       <section class="hero">
-        <p class="eyebrow">Daily song + artist spotlights</p>
-        <h1>On-trend picks for what is breaking next</h1>
+        <p class="eyebrow">Simple format. Consistent cadence.</p>
+        <h1>Two series. Daily publishing.</h1>
         <p class="intro">${site.description}</p>
-        <div class="ticker">
-          ${allTags.slice(0, 6).map((tag) => `<span>${tag}</span>`).join('')}
-        </div>
       </section>
 
       <section class="spotlight">
-        <p class="spotlight-label">Lead Spotlight</p>
+        <p class="spotlight-label">Lead Story</p>
         <h2><a href="#/post/${featured.slug}">${featured.title}</a></h2>
         <p>${featured.excerpt}</p>
-        <div class="tag-row">${featured.tags.map(tagChip).join('')}</div>
       </section>
 
       <section class="grid">
         <article class="panel">
           <div class="panel-head">
-            <h3>Latest Posts</h3>
-            <p>Daily feed</p>
+            <h3>${series.oldies.label}</h3>
+            <p>${series.oldies.description}</p>
           </div>
-          <div class="feed-grid">${latest.map(postCard).join('')}</div>
+          <div class="feed-grid">${oldiesPosts.map(postCard).join('')}</div>
         </article>
         <article class="panel">
           <div class="panel-head">
-            <h3>Review Desk</h3>
-            <p>Scored notes</p>
+            <h3>${series.scouting.label}</h3>
+            <p>${series.scouting.description}</p>
           </div>
-          <div class="reviews">${reviews.map(reviewCard).join('')}</div>
+          <div class="feed-grid">${scoutingPosts.map(postCard).join('')}</div>
         </article>
       </section>
     </main>
   `
 }
 
-function renderTag(tag) {
-  const normalized = decodeURIComponent(tag).toLowerCase()
-  const filtered = sortedPosts.filter((post) => {
-    if (post.tags.includes(normalized)) return true
-    if (normalized === 'review' && post.type === 'review') return true
-    return false
-  })
-
+function renderSeries(seriesId) {
+  const bucket = series[seriesId]
+  if (!bucket) {
+    renderHome()
+    return
+  }
+  const filtered = sortedPosts.filter((post) => post.series === seriesId)
   app.innerHTML = `
     <div class="grain"></div>
     ${navMarkup()}
     <main>
       <section class="hero compact">
-        <p class="eyebrow">Tag</p>
-        <h1>#${normalized}</h1>
-        <p class="intro">${filtered.length} post(s)</p>
+        <p class="eyebrow">Series</p>
+        <h1>${bucket.label}</h1>
+        <p class="intro">${bucket.description}</p>
       </section>
       <section class="panel">
-        <div class="feed-grid">
-          ${filtered.length ? filtered.map(postCard).join('') : '<p>No posts yet for this tag.</p>'}
-        </div>
+        <div class="feed-grid">${filtered.map(postCard).join('')}</div>
       </section>
     </main>
   `
@@ -134,32 +110,22 @@ function renderTag(tag) {
 function renderPost(slug) {
   const post = sortedPosts.find((entry) => entry.slug === slug)
   if (!post) {
-    app.innerHTML = `
-      <div class="grain"></div>
-      ${navMarkup()}
-      <main>
-        <section class="panel">
-          <h2>Post not found</h2>
-          <p><a href="#/">Back to homepage</a></p>
-        </section>
-      </main>
-    `
+    renderHome()
     return
   }
-
+  const bucket = series[post.series]
   app.innerHTML = `
     <div class="grain"></div>
     ${navMarkup()}
     <main>
       <article class="post-page panel">
-        <p class="feed-meta">${post.type} · ${formatDate(post.publishedAt)}</p>
+        <p class="feed-meta">${bucket.label} · ${formatDate(post.publishedAt)}</p>
         <h1>${post.title}</h1>
         <p class="post-artist">${post.artist}</p>
-        <div class="tag-row">${post.tags.map(tagChip).join('')}</div>
         <div class="post-body">
           ${post.body.map((paragraph) => `<p>${paragraph}</p>`).join('')}
         </div>
-        <p class="review-score">${post.score ? `Score: ${post.score}` : 'A&R Watch'}</p>
+        ${post.score ? `<p class="review-score">Scout Score: ${post.score}</p>` : ''}
       </article>
     </main>
   `
@@ -167,19 +133,10 @@ function renderPost(slug) {
 
 function router() {
   const route = window.location.hash.replace(/^#\/?/, '')
-  if (!route) {
-    renderHome()
-    return
-  }
-  if (route.startsWith('tag/')) {
-    renderTag(route.replace('tag/', ''))
-    return
-  }
-  if (route.startsWith('post/')) {
-    renderPost(route.replace('post/', ''))
-    return
-  }
-  renderHome()
+  if (!route) return renderHome()
+  if (route.startsWith('series/')) return renderSeries(route.replace('series/', ''))
+  if (route.startsWith('post/')) return renderPost(route.replace('post/', ''))
+  return renderHome()
 }
 
 window.addEventListener('hashchange', router)

@@ -1,5 +1,5 @@
 export const site = {
-  name: 'CrateScout',
+  name: 'Vault & Velocity',
   strap: 'Oldies + A&R Daily',
   description:
     'Two recurring formats only: Oldies Spotlight for younger listeners, and New Music A&R scouting notes.',

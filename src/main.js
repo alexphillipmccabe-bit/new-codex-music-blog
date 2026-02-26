@@ -79,7 +79,7 @@ function navMarkup() {
               <rect class="mascot-bar bar-4" x="69" y="81" width="3" height="8" rx="1.5" />
             </g>
           </svg>
-          <span class="mascot-name">SCOUTBOT</span>
+          <span class="mascot-name">VOLT</span>
         </div>
       </div>
     </header>
@@ -111,7 +111,7 @@ function renderHome() {
         <div class="hero-orb hero-orb-a"></div>
         <div class="hero-orb hero-orb-b"></div>
         <p class="eyebrow">Oldies decoded. New heat spotted first.</p>
-        <h1>CrateScout is your daily music radar.</h1>
+        <h1>Vault & Velocity is your daily music radar.</h1>
         <p class="intro">${site.description}</p>
       </section>
 

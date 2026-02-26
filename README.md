@@ -1,6 +1,6 @@
-# Music Blog (Vite)
+# Vault & Velocity
 
-A modern frontend starter for your music blog using Vite and vanilla JavaScript.
+Two-series music blog for oldies spotlights and A&R scouting notes, built with Vite and vanilla JavaScript.
 
 ## Setup
 

@@ -1,13 +1,22 @@
-# Music Blog
+# Music Blog (Vite)
 
-Simple starter website for a music blog.
+A modern frontend starter for your music blog using Vite and vanilla JavaScript.
 
-## Run locally
+## Setup
 
-Open `index.html` in your browser.
+```bash
+npm install
+```
 
-## GitHub workflow
+## Development
 
-- Make changes
-- Commit locally
-- Push to `main`
+```bash
+npm run dev
+```
+
+## Production Build
+
+```bash
+npm run build
+npm run preview
+```

@@ -122,6 +122,21 @@ function renderPost(slug) {
         <p class="feed-meta">${bucket.label} · ${formatDate(post.publishedAt)}</p>
         <h1>${post.title}</h1>
         <p class="post-artist">${post.artist}</p>
+        ${
+          post.spotifyEmbedUrl
+            ? `
+        <section class="spotify-wrap">
+          <p class="spotify-label">Listen on Spotify</p>
+          <iframe
+            src="${post.spotifyEmbedUrl}"
+            title="Spotify player for ${post.title}"
+            loading="lazy"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          ></iframe>
+        </section>
+        `
+            : ''
+        }
         <div class="post-body">
           ${post.body.map((paragraph) => `<p>${paragraph}</p>`).join('')}
         </div>

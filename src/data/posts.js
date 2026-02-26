@@ -29,6 +29,7 @@ export const posts = [
     publishedAt: '2026-02-26',
     tags: ['oldies', 'soft-rock', 'classic'],
     score: null,
+    spotifyEmbedUrl: 'https://open.spotify.com/embed/track/0ofHAoxe9vBkTCp2UQIav',
     excerpt:
       'A minimal groove, unmistakable vocal tone, and one of the most reusable hooks in pop history.',
     body: [
@@ -46,6 +47,7 @@ export const posts = [
     publishedAt: '2026-02-25',
     tags: ['oldies', 'hip-hop', 'classic'],
     score: null,
+    spotifyEmbedUrl: 'https://open.spotify.com/embed/track/0I3q5fE6wg7LIfHGngUTnV',
     excerpt:
       'Sharp storytelling, melodic chorus writing, and production that still translates to today.',
     body: [
@@ -63,6 +65,7 @@ export const posts = [
     publishedAt: '2026-02-24',
     tags: ['scouting', 'alt-pop', 'a&r-watch'],
     score: '8.7',
+    spotifyEmbedUrl: null,
     excerpt:
       'Fast hook entry and a vocal profile that stands out inside playlist-heavy alt-pop.',
     body: [
@@ -80,6 +83,7 @@ export const posts = [
     publishedAt: '2026-02-23',
     tags: ['scouting', 'r&b', 'emerging'],
     score: '8.4',
+    spotifyEmbedUrl: null,
     excerpt:
       'Release pace and consistency suggest a clear strategy, not random uploads.',
     body: [

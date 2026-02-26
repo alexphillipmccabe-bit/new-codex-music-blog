@@ -44,10 +44,13 @@ function makeUniqueSlug(base, existingSlugs) {
   return `${base}-${counter}`
 }
 
-function buildPostBlock({ slug, title, series, artist, publishedAt, tags }) {
+function buildPostBlock({ slug, title, series, artist, publishedAt, tags, spotifyEmbedUrl }) {
   const defaultTags = series === 'oldies' ? ['oldies', 'classic'] : ['scouting', 'a&r-watch']
   const finalTags = tags.length ? tags : defaultTags
   const score = series === 'scouting' ? "'8.0'" : 'null'
+  const spotifyValue = spotifyEmbedUrl
+    ? `'${spotifyEmbedUrl.replace(/'/g, "\\'")}'`
+    : 'null'
 
   return `  {
     slug: '${slug}',
@@ -57,6 +60,7 @@ function buildPostBlock({ slug, title, series, artist, publishedAt, tags }) {
     publishedAt: '${publishedAt}',
     tags: [${finalTags.map((tag) => `'${tag}'`).join(', ')}],
     score: ${score},
+    spotifyEmbedUrl: ${spotifyValue},
     excerpt: 'Write a one-line summary that captures why this post matters.',
     body: [
       'Paragraph 1: core take.',
@@ -74,7 +78,7 @@ async function main() {
   const artist = String(args.artist || '').trim()
   if (!title || !artist) {
     console.error(
-      'Usage: npm run new:post -- --title "Post Title" --artist "Artist Name" [--series oldies|scouting] [--tags "tag1,tag2"]',
+      'Usage: npm run new:post -- --title "Post Title" --artist "Artist Name" [--series oldies|scouting] [--tags "tag1,tag2"] [--spotify "https://open.spotify.com/embed/..."]',
     )
     process.exit(1)
   }
@@ -85,6 +89,7 @@ async function main() {
     .split(',')
     .map((tag) => tag.trim().toLowerCase())
     .filter(Boolean)
+  const spotifyEmbedUrl = String(args.spotify || '').trim()
 
   const file = await fs.readFile(POSTS_PATH, 'utf8')
   const slugs = new Set([...file.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1]))
@@ -94,7 +99,15 @@ async function main() {
   if (!file.includes(marker)) {
     throw new Error('Could not find posts array in src/data/posts.js')
   }
-  const block = buildPostBlock({ slug, title, series, artist, publishedAt, tags })
+  const block = buildPostBlock({
+    slug,
+    title,
+    series,
+    artist,
+    publishedAt,
+    tags,
+    spotifyEmbedUrl,
+  })
   const updated = file.replace(marker, `${marker}${block}`)
   await fs.writeFile(POSTS_PATH, updated, 'utf8')
 

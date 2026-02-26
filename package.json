@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "new:post": "node scripts/new-post.mjs"
   },
   "devDependencies": {
     "vite": "^7.3.1"

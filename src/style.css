@@ -77,6 +77,12 @@ body {
   box-shadow: 0 8px 24px rgba(18, 22, 33, 0.06);
 }
 
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .brand-link {
   display: block;
 }
@@ -116,6 +122,80 @@ body {
   color: #122338;
   border-color: rgba(0, 113, 227, 0.24);
   background: #ffffff;
+}
+
+.mascot-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.18rem 0.42rem 0.18rem 0.25rem;
+}
+
+.mascot {
+  width: 38px;
+  height: 38px;
+  display: block;
+}
+
+.mascot-name {
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #3d4655;
+}
+
+.mascot-shadow {
+  fill: rgba(21, 29, 45, 0.12);
+}
+
+.mascot-ant {
+  fill: none;
+  stroke: #2f3d57;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  animation: ant-wiggle 2.6s ease-in-out infinite;
+  transform-origin: 67px 24px;
+}
+
+.mascot-ant-tip {
+  fill: #0071e3;
+  animation: ant-tip 2.6s ease-in-out infinite;
+}
+
+.mascot-body {
+  fill: #0f1626;
+}
+
+.mascot-face {
+  fill: #f4f8ff;
+}
+
+.mascot-eye {
+  fill: #111827;
+}
+
+.mascot-eye-l,
+.mascot-eye-r {
+  animation: blink 4.2s infinite;
+  transform-origin: center;
+}
+
+.mascot-smile {
+  fill: none;
+  stroke: #1d293f;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.mascot-band {
+  fill: #0071e3;
+}
+
+.mascot-bob {
+  animation: mascot-bob 2.4s ease-in-out infinite;
 }
 
 .hero {
@@ -373,6 +453,48 @@ body {
   }
 }
 
+@keyframes mascot-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes blink {
+  0%,
+  88%,
+  100% {
+    transform: scaleY(1);
+  }
+  90%,
+  94% {
+    transform: scaleY(0.2);
+  }
+}
+
+@keyframes ant-wiggle {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes ant-tip {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;
@@ -381,7 +503,12 @@ body {
   }
 
   .hero-orb-a,
-  .hero-orb-b {
+  .hero-orb-b,
+  .mascot-bob,
+  .mascot-eye-l,
+  .mascot-eye-r,
+  .mascot-ant,
+  .mascot-ant-tip {
     animation: none;
   }
 }
@@ -402,6 +529,11 @@ body {
     border-radius: 18px;
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .topbar-right {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 .hero-orb {

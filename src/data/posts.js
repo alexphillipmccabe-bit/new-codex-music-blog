@@ -1,6 +1,6 @@
 export const site = {
-  name: 'Pulse Index',
-  strap: 'Two-Series Music Journal',
+  name: 'CrateScout',
+  strap: 'Oldies + A&R Daily',
   description:
     'Two recurring formats only: Oldies Spotlight for younger listeners, and New Music A&R scouting notes.',
 }

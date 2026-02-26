@@ -38,11 +38,29 @@ function navMarkup() {
         <p class="brand">${site.name}</p>
         <p class="stamp">${site.strap}</p>
       </a>
-      <nav class="topnav">
-        <a href="#/">Home</a>
-        <a href="#/series/oldies">Oldies Spotlight</a>
-        <a href="#/series/scouting">A&R Scout</a>
-      </nav>
+      <div class="topbar-right">
+        <nav class="topnav">
+          <a href="#/">Home</a>
+          <a href="#/series/oldies">Oldies Spotlight</a>
+          <a href="#/series/scouting">A&R Scout</a>
+        </nav>
+        <div class="mascot-wrap" aria-hidden="true">
+          <svg class="mascot" viewBox="0 0 120 120">
+            <circle class="mascot-shadow" cx="60" cy="106" r="20" />
+            <g class="mascot-bob">
+              <path class="mascot-ant" d="M67 24 C72 15, 82 14, 86 22" />
+              <circle class="mascot-ant-tip" cx="87" cy="22" r="3.8" />
+              <rect class="mascot-body" x="34" y="30" rx="22" ry="22" width="52" height="58" />
+              <ellipse class="mascot-face" cx="60" cy="56" rx="18" ry="15" />
+              <rect class="mascot-eye mascot-eye-l" x="50" y="51" width="5.5" height="8" rx="3" />
+              <rect class="mascot-eye mascot-eye-r" x="64.5" y="51" width="5.5" height="8" rx="3" />
+              <path class="mascot-smile" d="M53 65 C57 69, 63 69, 67 65" />
+              <rect class="mascot-band" x="43" y="76" width="34" height="6.5" rx="3.25" />
+            </g>
+          </svg>
+          <span class="mascot-name">SCOUTBOT</span>
+        </div>
+      </div>
     </header>
   `
 }
@@ -71,8 +89,8 @@ function renderHome() {
       <section class="hero reveal is-visible">
         <div class="hero-orb hero-orb-a"></div>
         <div class="hero-orb hero-orb-b"></div>
-        <p class="eyebrow">Simple format. Consistent cadence.</p>
-        <h1>Two series. Daily publishing.</h1>
+        <p class="eyebrow">Oldies for the next gen. A&R picks for tomorrow.</p>
+        <h1>CrateScout keeps your music radar sharp.</h1>
         <p class="intro">${site.description}</p>
       </section>
 

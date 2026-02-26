@@ -7,6 +7,22 @@ const sortedPosts = [...posts].sort(
   (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
 )
 
+function attachScrollReveal() {
+  const elements = document.querySelectorAll('.reveal')
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.16 },
+  )
+  elements.forEach((element) => observer.observe(element))
+}
+
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString('en-US', {
     month: 'short',
@@ -34,7 +50,7 @@ function navMarkup() {
 function postCard(post) {
   const bucket = series[post.series]
   return `
-    <article class="feed-card">
+    <article class="feed-card reveal">
       <p class="feed-meta">${bucket.label} · ${formatDate(post.publishedAt)}</p>
       <h3><a href="#/post/${post.slug}">${post.title}</a></h3>
       <p class="feed-artist">${post.artist}</p>
@@ -52,27 +68,29 @@ function renderHome() {
     <div class="grain"></div>
     ${navMarkup()}
     <main>
-      <section class="hero">
+      <section class="hero reveal is-visible">
+        <div class="hero-orb hero-orb-a"></div>
+        <div class="hero-orb hero-orb-b"></div>
         <p class="eyebrow">Simple format. Consistent cadence.</p>
         <h1>Two series. Daily publishing.</h1>
         <p class="intro">${site.description}</p>
       </section>
 
-      <section class="spotlight">
+      <section class="spotlight reveal">
         <p class="spotlight-label">Lead Story</p>
         <h2><a href="#/post/${featured.slug}">${featured.title}</a></h2>
         <p>${featured.excerpt}</p>
       </section>
 
-      <section class="grid">
-        <article class="panel">
+      <section class="grid reveal">
+        <article class="panel reveal">
           <div class="panel-head">
             <h3>${series.oldies.label}</h3>
             <p>${series.oldies.description}</p>
           </div>
           <div class="feed-grid">${oldiesPosts.map(postCard).join('')}</div>
         </article>
-        <article class="panel">
+        <article class="panel reveal">
           <div class="panel-head">
             <h3>${series.scouting.label}</h3>
             <p>${series.scouting.description}</p>
@@ -82,6 +100,7 @@ function renderHome() {
       </section>
     </main>
   `
+  attachScrollReveal()
 }
 
 function renderSeries(seriesId) {
@@ -95,16 +114,18 @@ function renderSeries(seriesId) {
     <div class="grain"></div>
     ${navMarkup()}
     <main>
-      <section class="hero compact">
+      <section class="hero compact reveal is-visible">
+        <div class="hero-orb hero-orb-a"></div>
         <p class="eyebrow">Series</p>
         <h1>${bucket.label}</h1>
         <p class="intro">${bucket.description}</p>
       </section>
-      <section class="panel">
+      <section class="panel reveal">
         <div class="feed-grid">${filtered.map(postCard).join('')}</div>
       </section>
     </main>
   `
+  attachScrollReveal()
 }
 
 function renderPost(slug) {
@@ -118,7 +139,7 @@ function renderPost(slug) {
     <div class="grain"></div>
     ${navMarkup()}
     <main>
-      <article class="post-page panel">
+      <article class="post-page panel reveal is-visible">
         <p class="feed-meta">${bucket.label} · ${formatDate(post.publishedAt)}</p>
         <h1>${post.title}</h1>
         <p class="post-artist">${post.artist}</p>
@@ -144,6 +165,7 @@ function renderPost(slug) {
       </article>
     </main>
   `
+  attachScrollReveal()
 }
 
 function router() {

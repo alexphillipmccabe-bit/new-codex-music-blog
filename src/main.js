@@ -115,6 +115,21 @@ function renderHome() {
         <p class="intro">${site.description}</p>
       </section>
 
+      <section class="visual-wall reveal">
+        <article class="visual visual-a">
+          <p>Live Pulse</p>
+          <h3>Crowd energy, front row chaos, midnight sets.</h3>
+        </article>
+        <article class="visual visual-b">
+          <p>Artist Focus</p>
+          <h3>Faces and voices shaping the next era.</h3>
+        </article>
+        <article class="visual visual-c">
+          <p>Studio to Stage</p>
+          <h3>From raw demos to breakout moments.</h3>
+        </article>
+      </section>
+
       <section class="spotlight reveal">
         <p class="spotlight-label">Lead Story</p>
         <h2><a href="#/post/${featured.slug}">${featured.title}</a></h2>

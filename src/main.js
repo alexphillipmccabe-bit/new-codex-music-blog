@@ -2,6 +2,7 @@ import './style.css'
 import { posts, series, site } from './data/posts.js'
 
 const app = document.querySelector('#app')
+let mascotTimer = null
 
 const sortedPosts = [...posts].sort(
   (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
@@ -21,6 +22,22 @@ function attachScrollReveal() {
     { threshold: 0.16 },
   )
   elements.forEach((element) => observer.observe(element))
+}
+
+function attachMascotBehavior() {
+  const mascot = document.querySelector('.mascot-wrap')
+  if (!mascot) return
+  if (mascotTimer) clearInterval(mascotTimer)
+
+  const moods = ['mood-idle', 'mood-listening', 'mood-hype']
+  let index = 0
+  mascot.classList.add(moods[index])
+
+  mascotTimer = setInterval(() => {
+    mascot.classList.remove(...moods)
+    index = (index + 1) % moods.length
+    mascot.classList.add(moods[index])
+  }, 3200)
 }
 
 function formatDate(dateString) {
@@ -56,6 +73,10 @@ function navMarkup() {
               <rect class="mascot-eye mascot-eye-r" x="64.5" y="51" width="5.5" height="8" rx="3" />
               <path class="mascot-smile" d="M53 65 C57 69, 63 69, 67 65" />
               <rect class="mascot-band" x="43" y="76" width="34" height="6.5" rx="3.25" />
+              <rect class="mascot-bar bar-1" x="48" y="81" width="3" height="8" rx="1.5" />
+              <rect class="mascot-bar bar-2" x="55" y="81" width="3" height="8" rx="1.5" />
+              <rect class="mascot-bar bar-3" x="62" y="81" width="3" height="8" rx="1.5" />
+              <rect class="mascot-bar bar-4" x="69" y="81" width="3" height="8" rx="1.5" />
             </g>
           </svg>
           <span class="mascot-name">SCOUTBOT</span>
@@ -89,8 +110,8 @@ function renderHome() {
       <section class="hero reveal is-visible">
         <div class="hero-orb hero-orb-a"></div>
         <div class="hero-orb hero-orb-b"></div>
-        <p class="eyebrow">Oldies for the next gen. A&R picks for tomorrow.</p>
-        <h1>CrateScout keeps your music radar sharp.</h1>
+        <p class="eyebrow">Oldies decoded. New heat spotted first.</p>
+        <h1>CrateScout is your daily music radar.</h1>
         <p class="intro">${site.description}</p>
       </section>
 
@@ -98,6 +119,12 @@ function renderHome() {
         <p class="spotlight-label">Lead Story</p>
         <h2><a href="#/post/${featured.slug}">${featured.title}</a></h2>
         <p>${featured.excerpt}</p>
+      </section>
+
+      <section class="pulse-strip reveal">
+        <p>Oldies spotlight</p>
+        <p>New music scout</p>
+        <p>Play it now</p>
       </section>
 
       <section class="grid reveal">
@@ -119,6 +146,7 @@ function renderHome() {
     </main>
   `
   attachScrollReveal()
+  attachMascotBehavior()
 }
 
 function renderSeries(seriesId) {
@@ -144,6 +172,7 @@ function renderSeries(seriesId) {
     </main>
   `
   attachScrollReveal()
+  attachMascotBehavior()
 }
 
 function renderPost(slug) {
@@ -184,6 +213,7 @@ function renderPost(slug) {
     </main>
   `
   attachScrollReveal()
+  attachMascotBehavior()
 }
 
 function router() {

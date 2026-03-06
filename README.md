@@ -1,6 +1,6 @@
 # Vault & Velocity
 
-Two-series music blog for oldies spotlights and A&R scouting notes, built with Vite and vanilla JavaScript.
+A simple song-review blog focused on new music, Spotify playback, and artist links.
 
 ## Setup
 
@@ -24,7 +24,18 @@ npm run preview
 ## Create a new daily post
 
 ```bash
-npm run new:post -- --title "Dreams Still Hits" --artist "Fleetwood Mac" --series oldies --tags "oldies,classic" --spotify "https://open.spotify.com/embed/track/0ofHAoxe9vBkTCp2UQIav"
+npm run new:post -- \
+  --title "Review: Artist Name - Song Title" \
+  --song "Song Title" \
+  --artist "Artist Name" \
+  --spotifyEmbed "https://open.spotify.com/embed/track/..." \
+  --spotifyArtist "https://open.spotify.com/artist/..." \
+  --cover "https://..." \
+  --artistImage "https://..." \
+  --instagram "https://instagram.com/..." \
+  --tiktok "https://tiktok.com/@..." \
+  --x "https://x.com/..." \
+  --youtube "https://youtube.com/@..."
 ```
 
-The command inserts a new template at the top of `src/data/posts.js` with slug/date defaults.
+The command inserts a new review template at the top of `src/data/posts.js`.

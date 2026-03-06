@@ -1,96 +1,69 @@
 export const site = {
   name: 'Vault & Velocity',
-  strap: 'Oldies + A&R Daily',
+  strap: 'Daily Song Reviews + A&R Notes',
   description:
-    'Two recurring formats only: Oldies Spotlight for younger listeners, and New Music A&R scouting notes.',
-}
-
-export const series = {
-  oldies: {
-    id: 'oldies',
-    label: 'Oldies Spotlight',
-    description:
-      'Classic songs and artists explained in modern terms for the younger generation.',
-  },
-  scouting: {
-    id: 'scouting',
-    label: 'New Music A&R Scout',
-    description:
-      'Short scouting notes on new releases and emerging artists with breakout potential.',
-  },
+    'A clean, fast-reading stream of new-song reviews with A&R perspective, Spotify playback, and artist links.',
 }
 
 export const posts = [
   {
-    slug: 'fleetwood-mac-dreams-oldies-spotlight',
-    title: 'Why "Dreams" Still Sounds Fresh In 2026',
-    series: 'oldies',
-    artist: 'Fleetwood Mac',
-    publishedAt: '2026-02-26',
-    tags: ['oldies', 'soft-rock', 'classic'],
-    score: null,
-    spotifyEmbedUrl: 'https://open.spotify.com/embed/track/0ofHAoxe9vBkTCp2UQIav',
-    excerpt:
-      'A minimal groove, unmistakable vocal tone, and one of the most reusable hooks in pop history.',
-    body: [
-      'Dreams feels modern because it leaves space. The drum pulse and bassline do less, but every part lands.',
-      'Stevie Nicks delivers the melody with restraint, which makes the chorus more durable over time.',
-      'For new listeners, this is a masterclass in writing songs that feel effortless but stay memorable.',
-    ],
-    featured: true,
-  },
-  {
-    slug: 'outkast-ms-jackson-oldies-spotlight',
-    title: 'How "Ms. Jackson" Bridges Rap And Pop',
-    series: 'oldies',
-    artist: 'OutKast',
-    publishedAt: '2026-02-25',
-    tags: ['oldies', 'hip-hop', 'classic'],
-    score: null,
-    spotifyEmbedUrl: 'https://open.spotify.com/embed/track/0I3q5fE6wg7LIfHGngUTnV',
-    excerpt:
-      'Sharp storytelling, melodic chorus writing, and production that still translates to today.',
-    body: [
-      'Ms. Jackson works because the concept is specific but universal: apology, ego, and consequence.',
-      'Andre 3000 and Big Boi balance wit and vulnerability while keeping every section catchy.',
-      'It is a perfect introduction for younger fans exploring early-2000s hip-hop craft.',
-    ],
-    featured: false,
-  },
-  {
-    slug: 'luna-vale-silverline-scout-note',
-    title: 'Scout Note: Luna Vale - "Silverline"',
-    series: 'scouting',
+    slug: 'luna-vale-silverline-review',
+    title: 'Review: Luna Vale - "Silverline"',
+    songTitle: 'Silverline',
     artist: 'Luna Vale',
-    publishedAt: '2026-02-24',
-    tags: ['scouting', 'alt-pop', 'a&r-watch'],
-    score: '8.7',
-    spotifyEmbedUrl: null,
-    excerpt:
-      'Fast hook entry and a vocal profile that stands out inside playlist-heavy alt-pop.',
-    body: [
-      'Silverline finds its hook quickly and never lets energy dip across the core sections.',
-      'The topline and vocal texture are distinct enough to separate the track from trend-chasing peers.',
-      'A strong candidate for playlist growth and short-form video traction.',
+    publishedAt: '2026-02-26',
+    summary:
+      'Immediate hook, clean topline writing, and enough vocal identity to stand out in crowded alt-pop lanes.',
+    review: [
+      'Silverline gets to the hook quickly and never wastes momentum.',
+      'The topline and vocal texture are distinct enough to stay memorable after one listen.',
+      'From an A&R lens, this is a track with clear playlist and short-form potential.',
     ],
-    featured: false,
+    arNotes: [
+      'Strong first-30-seconds retention.',
+      'Distinct vocal identity is commercial upside.',
+      'Would watch next two releases for consistency.',
+    ],
+    coverImageUrl:
+      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1600&q=80',
+    artistImageUrl:
+      'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1600&q=80',
+    spotifyEmbedUrl: 'https://open.spotify.com/embed/track/0ofHAoxe9vBkTCp2UQIav',
+    spotifyArtistUrl: 'https://open.spotify.com/artist/0du5cEVh5yTK9QJze8zA0C',
+    socials: [
+      { label: 'Instagram', url: 'https://instagram.com/' },
+      { label: 'TikTok', url: 'https://www.tiktok.com/' },
+      { label: 'YouTube', url: 'https://youtube.com/' },
+    ],
   },
   {
-    slug: 'sora-vale-three-single-run-scout-note',
-    title: 'Scout Note: Sora Vale Is On A Smart Three-Single Run',
-    series: 'scouting',
+    slug: 'sora-vale-night-shift-review',
+    title: 'Review: Sora Vale - "Night Shift"',
+    songTitle: 'Night Shift',
     artist: 'Sora Vale',
-    publishedAt: '2026-02-23',
-    tags: ['scouting', 'r&b', 'emerging'],
-    score: '8.4',
-    spotifyEmbedUrl: null,
-    excerpt:
-      'Release pace and consistency suggest a clear strategy, not random uploads.',
-    body: [
-      'Three singles in close sequence have clarified Sora Vale’s sonic identity.',
-      'Each record tightens the writing and improves vocal capture.',
-      'This profile is worth monitoring over the next two release cycles.',
+    publishedAt: '2026-02-24',
+    summary:
+      'Low-end groove is polished, writing is focused, and the chorus lands with repeat value.',
+    review: [
+      'Night Shift keeps things minimal and benefits from that discipline.',
+      'The chorus has strong replay value and fits current R&B-adjacent playlists.',
+      'The artist is showing consistency across releases rather than one-off peaks.',
     ],
-    featured: false,
+    arNotes: [
+      'Good release pacing so far.',
+      'Clear sonic identity is emerging.',
+      'Worth tracking for a breakout collaboration.',
+    ],
+    coverImageUrl:
+      'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1600&q=80',
+    artistImageUrl:
+      'https://images.unsplash.com/photo-1487180144351-b8472da7d491?auto=format&fit=crop&w=1600&q=80',
+    spotifyEmbedUrl: 'https://open.spotify.com/embed/track/0I3q5fE6wg7LIfHGngUTnV',
+    spotifyArtistUrl: 'https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4',
+    socials: [
+      { label: 'Instagram', url: 'https://instagram.com/' },
+      { label: 'TikTok', url: 'https://www.tiktok.com/' },
+      { label: 'X', url: 'https://x.com/' },
+    ],
   },
 ]

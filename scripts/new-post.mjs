@@ -4,14 +4,6 @@ import process from 'node:process'
 
 const POSTS_PATH = path.resolve(process.cwd(), 'src/data/posts.js')
 
-function slugify(value) {
-  return value
-    .toLowerCase()
-    .replace(/&/g, 'and')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
-
 function parseArgs(argv) {
   const args = {}
   for (let i = 0; i < argv.length; i += 1) {
@@ -29,91 +21,130 @@ function parseArgs(argv) {
   return args
 }
 
+function slugify(value) {
+  return value
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 function todayIso() {
   return new Date().toISOString().slice(0, 10)
 }
 
-function normalizeSeries(value) {
-  return value === 'oldies' ? 'oldies' : 'scouting'
-}
-
 function makeUniqueSlug(base, existingSlugs) {
   if (!existingSlugs.has(base)) return base
-  let counter = 2
-  while (existingSlugs.has(`${base}-${counter}`)) counter += 1
-  return `${base}-${counter}`
+  let count = 2
+  while (existingSlugs.has(`${base}-${count}`)) count += 1
+  return `${base}-${count}`
 }
 
-function buildPostBlock({ slug, title, series, artist, publishedAt, tags, spotifyEmbedUrl }) {
-  const defaultTags = series === 'oldies' ? ['oldies', 'classic'] : ['scouting', 'a&r-watch']
-  const finalTags = tags.length ? tags : defaultTags
-  const score = series === 'scouting' ? "'8.0'" : 'null'
-  const spotifyValue = spotifyEmbedUrl
-    ? `'${spotifyEmbedUrl.replace(/'/g, "\\'")}'`
-    : 'null'
+function escapeSingleQuotes(value) {
+  return value.replace(/'/g, "\\'")
+}
 
+function socialBlock(args) {
+  const pairs = [
+    ['Instagram', args.instagram],
+    ['TikTok', args.tiktok],
+    ['X', args.x],
+    ['YouTube', args.youtube],
+  ].filter(([, url]) => Boolean(url))
+
+  if (!pairs.length) return "    socials: [],\n"
+
+  return `    socials: [
+${pairs
+  .map(([label, url]) => `      { label: '${label}', url: '${escapeSingleQuotes(String(url))}' },`)
+  .join('\n')}
+    ],
+`
+}
+
+function buildPostBlock({
+  slug,
+  title,
+  songTitle,
+  artist,
+  publishedAt,
+  spotifyEmbedUrl,
+  spotifyArtistUrl,
+  coverImageUrl,
+  artistImageUrl,
+  socials,
+}) {
   return `  {
     slug: '${slug}',
-    title: '${title.replace(/'/g, "\\'")}',
-    series: '${series}',
-    artist: '${artist.replace(/'/g, "\\'")}',
+    title: '${escapeSingleQuotes(title)}',
+    songTitle: '${escapeSingleQuotes(songTitle)}',
+    artist: '${escapeSingleQuotes(artist)}',
     publishedAt: '${publishedAt}',
-    tags: [${finalTags.map((tag) => `'${tag}'`).join(', ')}],
-    score: ${score},
-    spotifyEmbedUrl: ${spotifyValue},
-    excerpt: 'Write a one-line summary that captures why this post matters.',
-    body: [
-      'Paragraph 1: core take.',
-      'Paragraph 2: standout moment or production note.',
-      'Paragraph 3: why this matters for your audience.',
+    summary: 'Write one concise summary sentence about the song and your main take.',
+    review: [
+      'Paragraph 1: immediate reaction and strongest section of the song.',
+      'Paragraph 2: production/vocal/songwriting details.',
+      'Paragraph 3: A&R perspective on growth, positioning, or potential.',
     ],
-    featured: false,
-  },
+    arNotes: [
+      'Short bullet note 1.',
+      'Short bullet note 2.',
+      'Short bullet note 3.',
+    ],
+    coverImageUrl: '${escapeSingleQuotes(coverImageUrl)}',
+    artistImageUrl: '${escapeSingleQuotes(artistImageUrl)}',
+    spotifyEmbedUrl: '${escapeSingleQuotes(spotifyEmbedUrl)}',
+    spotifyArtistUrl: '${escapeSingleQuotes(spotifyArtistUrl)}',
+${socials}  },
 `
 }
 
 async function main() {
   const args = parseArgs(process.argv.slice(2))
   const title = String(args.title || '').trim()
+  const songTitle = String(args.song || '').trim()
   const artist = String(args.artist || '').trim()
-  if (!title || !artist) {
+  const spotifyEmbedUrl = String(args.spotifyEmbed || '').trim()
+  const spotifyArtistUrl = String(args.spotifyArtist || '').trim()
+  const coverImageUrl = String(args.cover || '').trim() || '/hero.jpg'
+  const artistImageUrl = String(args.artistImage || '').trim() || '/hero.jpg'
+
+  if (!title || !songTitle || !artist || !spotifyEmbedUrl || !spotifyArtistUrl) {
     console.error(
-      'Usage: npm run new:post -- --title "Post Title" --artist "Artist Name" [--series oldies|scouting] [--tags "tag1,tag2"] [--spotify "https://open.spotify.com/embed/..."]',
+      'Usage: npm run new:post -- --title "Review: Artist - Song" --song "Song" --artist "Artist" --spotifyEmbed "https://open.spotify.com/embed/track/..." --spotifyArtist "https://open.spotify.com/artist/..." [--cover "..."] [--artistImage "..."] [--instagram "..."] [--tiktok "..."] [--x "..."] [--youtube "..."]',
     )
     process.exit(1)
   }
 
-  const series = normalizeSeries(String(args.series || 'scouting').toLowerCase())
   const publishedAt = String(args.date || todayIso())
-  const tags = String(args.tags || '')
-    .split(',')
-    .map((tag) => tag.trim().toLowerCase())
-    .filter(Boolean)
-  const spotifyEmbedUrl = String(args.spotify || '').trim()
-
   const file = await fs.readFile(POSTS_PATH, 'utf8')
-  const slugs = new Set([...file.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1]))
-  const slug = makeUniqueSlug(slugify(`${artist} ${title}`), slugs)
+  const existingSlugs = new Set([...file.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1]))
+  const slug = makeUniqueSlug(slugify(`${artist} ${songTitle} review`), existingSlugs)
 
+  const socials = socialBlock(args)
   const marker = 'export const posts = [\n'
   if (!file.includes(marker)) {
     throw new Error('Could not find posts array in src/data/posts.js')
   }
+
   const block = buildPostBlock({
     slug,
     title,
-    series,
+    songTitle,
     artist,
     publishedAt,
-    tags,
     spotifyEmbedUrl,
+    spotifyArtistUrl,
+    coverImageUrl,
+    artistImageUrl,
+    socials,
   })
+
   const updated = file.replace(marker, `${marker}${block}`)
   await fs.writeFile(POSTS_PATH, updated, 'utf8')
 
-  console.log(`Added new ${series} post:`)
-  console.log(`- slug: ${slug}`)
-  console.log(`- file: src/data/posts.js`)
+  console.log(`Added new post: ${slug}`)
+  console.log('- file: src/data/posts.js')
 }
 
 main().catch((error) => {
